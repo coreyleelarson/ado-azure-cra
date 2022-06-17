@@ -1,5 +1,5 @@
 {
-  "name": "test-azure",
+  "name": "ado-azure-cra",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
