@@ -19,10 +19,15 @@ steps:
 - script: |
     npm install
     npm run build
-  displayName: 'npm install and build'
+  displayName: 'Install Dependencies'
+
+- script: |
+    npm run build
+  displayName: 'Create Production Build'
 
 - task: PublishBuildArtifacts@1
   inputs:
     PathtoPublish: 'build'
     ArtifactName: 'drop'
     publishLocation: 'Container'
+  displayName: 'Publish Build Artifacts'

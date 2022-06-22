@@ -1,70 +1,141 @@
-# Getting Started with Create React App
+# ADO Azure CRA
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Prerequisites
+- Azure Portal Account
+- Azure DevOps Organization
 
-## Available Scripts
+## Azure Portal Setup
 
-In the project directory, you can run:
+- Azure Subscription
+- Azure Resource Group
+- Azure Storage Account
+- Azure CDN Profile & Endpoint
 
-### `npm start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+### Setup Azure Subscription
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+- From the Azure Portal Home, click "More Services", and click "Subscriptions" under the "General" heading.
 
-### `npm test`
+- Click the "+ Add" button.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+- Enter a unique name for your subscription.
 
-### `npm run build`
+- Review all other fields (for my testing purposes, each only had one option, but for client projects, this may have multiple).
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Click the "Create" button. It may take some time for the subscription to be available.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+### Setup Azure Resource Group
 
-### `npm run eject`
+- From the Azure Portal Home, click "More Services", and click "Resource Groups" under the "General" heading.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- Click the "+ Create" button.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+- Select your previously created Subscription and enter a unique name for your Resource Group.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- Review all other fields (for my testing purposes, I kept the default Region of "(US) East US" but for client projects they may have a preference).
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+- Click the "Create" button. It may take some time for the resource group to be available.
 
-## Learn More
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+### Setup Azure Storage Account
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+- From the Azure Portal Home, click "More Services", and click "Storage Accounts" under the "Storage" heading.
 
-### Code Splitting
+- Click the "+ Create" button.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+- Select your previously created Subscription and Resource Group.
 
-### Analyzing the Bundle Size
+- Enter a unique name for your Storage Account.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+- Review all other fields (for my testing purposes, I kept the defaults, but for client projects they may have a preference).
 
-### Making a Progressive Web App
+- Click the "Create" button. It may take some time for the storage account to be available.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+### Configure Azure Storage Account Static Website
 
-### Advanced Configuration
+- Navigate to the newly created storage account resource.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
+- Under "Data Management" in the left navigation, select "Static Website".
 
-### Deployment
+- Click the "Enable" option, enter "index.html" for both document fields, and click "Save".
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+### Configure Azure CDN Profile and Endpoint
 
-### `npm run build` fails to minify
+- Navigate to the newly created storage account resource.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+- Under "Security + Networkgin" in the left navigation, select "Azure CDN".
+
+- Under "New endpoint", select "Create New", enter a unique name for your CDN Profile, select a pricing tier (for my testing purposes, I selected the classic one), enter a unique name for your endpoint, and select the origin hostname that ends with "(Static Website)".
+
+- Click the "Create" button. It may take some time for the CDN profile and endpoint to be available.
+
+
+---
+
+## Azure DevOps Setup
+
+- Azure DevOps Service Connection
+- Azure DevOps Build Pipeline
+- Azure DevOps Release Pipeline
+
+
+### Setup Azure Service Connection
+
+- In your Azure DevOps project settings, select "Service Connections" under the "Pipelines" heading in the left navigation.
+
+- Click "New Service Connection", select "Azure Resource Manager", and click "Next" at the bottom.
+
+- Ensure "Service Principal (automatic)" is selected and click "Next".
+
+- Select your newly created subscription and resource group from the dropdowns, enter a unique name for your service connection, select the checkbox to "Grant access permissions to all pipelines", and click "Save".
+
+
+### Setup Azure Build Pipeline
+
+- In Azure DevOps, navigate to "Pipelines" and click "New Pipeline".
+
+- Connect your repo from Azure Repos, Github, etc.
+
+- Copy and paste this sample **azure-pipelines.yml** file:
+
+```
+# Node.js with React
+
+# Build a Node.js project that uses React.
+# Add steps that analyze code, save build artifacts, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/javascript
+
+trigger:
+- main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- task: NodeTool@0
+  inputs:
+    versionSpec: '16.x'
+  displayName: 'Install Node.js'
+
+- script: |
+    npm install
+    npm run build
+  displayName: 'Install Dependencies'
+
+- script: |
+    npm run build
+  displayName: 'Create Production Build'
+
+- task: PublishBuildArtifacts@1
+  inputs:
+    PathtoPublish: 'build'
+    ArtifactName: 'drop'
+    publishLocation: 'Container'
+  displayName: 'Publish Build Artifacts'
+```
+
+
+### Setup Azure Release Pipeline
+
+This is it.
