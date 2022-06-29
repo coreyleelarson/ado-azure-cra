@@ -64,7 +64,7 @@
 
 - Navigate to the newly created storage account resource.
 
-- Under "Security + Networkgin" in the left navigation, select "Azure CDN".
+- Under "Security + Networking" in the left navigation, select "Azure CDN".
 
 - Under "New endpoint", select "Create New", enter a unique name for your CDN Profile, select a pricing tier (for my testing purposes, I selected the classic one), enter a unique name for your endpoint, and select the origin hostname that ends with "(Static Website)".
 
