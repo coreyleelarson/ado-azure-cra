@@ -141,7 +141,6 @@ steps:
 
 - script: |
     npm install
-    npm run build
   displayName: 'Install Dependencies'
 
 - script: |
