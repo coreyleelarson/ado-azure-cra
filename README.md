@@ -226,3 +226,4 @@ Click the "Variables" tab and add the following name/value pairs, selecting your
 |EndpointName|Your Azure CDN Endpoint Name|
 |ProfileName|Your Azure CDN Profile Name|
 |ResourceGroupName|Your Azure Resource Group Name|
+|TestName|Dev Success!|
