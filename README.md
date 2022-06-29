@@ -170,6 +170,17 @@ steps:
 
 - Click "Tasks", select your stage, and click the "+" button next to "Agent Job".
 
+**Azure Replace Tokens Task**
+
+- In the right pane, add the "Replace tokens" task.
+
+- Enter the following for your target files: `**/*`
+
+- Select "custom" for token pattern.
+
+- Enter the following for your token prefix: `__CONFIG_`
+
+- Enter the following for your token suffex: `__`
 
 **Azure File Copy Task**
 
